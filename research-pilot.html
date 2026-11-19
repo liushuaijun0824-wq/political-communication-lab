@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="soft" data-ground="sand" data-buttons="solid" data-motion>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Research Pilot — AI-mediated political communication</title>
+  <meta name="description" content="A real-data, small-sample listing-level content-analysis pilot in AI-mediated political communication.">
+  <meta name="site-kind" content="software">
+  <meta name="page-type" content="software">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Research Pilot">
+  <meta property="og:description" content="A real-data, small-sample listing-level content-analysis pilot with a transparent audit trail.">
+  <meta property="og:image" content="share.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#f5f5f7">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/system.css">
+  <link rel="stylesheet" href="assets/ui/cards.css">
+  <link rel="stylesheet" href="assets/motion/motion.css">
+  <link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+  <link rel="stylesheet" href="assets/layout/layout.css">
+  <link rel="stylesheet" href="assets/icons/icon.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="research-pilot.css">
+  <style>
+    :root {
+      --p-bg: #ffffff; --p-surface: #f4f4f4; --p-ink: #111111; --p-muted: #6b6b6b;
+      --p-accent: #1a4be0; --p-accent-ink: #ffffff; --p-action: #1a4be0; --p-action-ink: #ffffff;
+      --p-inv-bg: #111111; --p-inv-surface: #1e1e1e; --p-inv-ink: #ffffff; --p-inv-muted: #9a9a9a;
+      --p-inv-accent: #ffffff; --p-inv-accent-ink: #111111; --p-inv-action: #ffffff; --p-inv-action-ink: #111111;
+      --font-display: "Geist", system-ui, sans-serif;
+      --font-text: "Geist", system-ui, sans-serif;
+      --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+      --display-weight: 500;
+      --display-tracking: -0.035em;
+      --display-tracking-xl: -0.045em;
+      --ly-scale: 0.97;
+    }
+  </style>
+  <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+  <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+  <link rel="modulepreload" href="assets/moments/moments.js">
+  <link rel="modulepreload" href="assets/moments/lib.js">
+  <link rel="modulepreload" href="assets/moments/word-highlight/moment.js">
+</head>
+<body>
+  <header class="nav nav--centre">
+    <div class="wrap nav__bar">
+      <a class="skip-link" href="#top">Skip to content</a>
+      <a class="nav__logo" href="index.html">Research Workbench</a>
+      <nav class="nav__links" aria-label="Main">
+        <div class="nav__item"><a class="nav__link" href="#overview">Overview</a></div>
+        <div class="nav__item"><a class="nav__link" href="#design">Design</a></div>
+        <div class="nav__item"><a class="nav__link" href="#results">Results</a></div>
+        <div class="nav__item"><a class="nav__link" href="#audit">Audit</a></div>
+        <div class="nav__item"><a class="nav__link" href="#scope">Scope</a></div>
+      </nav>
+      <div class="nav__actions"><a class="btn btn--primary" href="index.html">Open workbench</a></div>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero hero--split" data-enter aria-labelledby="pilot-h">
+      <div class="wrap">
+        <div class="hero-text grid hero__grid">
+          <div class="hero__text span-5">
+            <p class="hero__kicker"><span class="dot" aria-hidden="true"></span>Real public data · n=30 · Listings</p>
+            <h1 id="pilot-h">A research pilot that shows its work.</h1>
+            <p class="hero__lead">A small, real-data content-analysis pilot in AI-mediated political communication. Built to demonstrate research design, coding discipline, and clear inferential boundaries.</p>
+            <div class="btn-row">
+              <a class="btn btn--primary" href="#results">Read the results</a>
+              <a class="btn btn--secondary" href="#design">See the method</a>
+            </div>
+          </div>
+          <div class="hero__media span-6 start-7 research-preview" role="img" aria-label="Research pilot result card showing sample size, explicit AI cue rate, and inferential boundary">
+            <div class="hero-window">
+              <div class="hero-window__side"><span>Pilot study</span><span>Question</span><span>Codebook</span><span class="is-active">Results</span><span>Limits</span></div>
+              <div class="hero-window__main">
+                <div class="hero-window__head"><div><small>REAL PUBLIC SAMPLE</small><strong>NPR listing cues</strong></div><span>Auditable</span></div>
+                <div class="hero-window__stats" data-edge-free><div><small>Listings</small><strong>30</strong></div><div><small>Explicit AI</small><strong>10</strong></div><div><small>Pass check</small><strong>6/6</strong></div></div>
+                <div class="hero-window__table">
+                  <div class="head" data-edge-free><span>Test</span><span>Estimate</span><span>Boundary</span></div>
+                  <div data-edge-free><span>H1 accountability</span><span>RD 0.15</span><span>p = 0.431</span></div>
+                  <div data-edge-free><span>H2 named actor</span><span>RD 0.10</span><span>p = 0.540</span></div>
+                  <div data-edge-free><span>Exploratory</span><span>RD 0.60</span><span>p = 0.004</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="overview" aria-labelledby="overview-h">
+      <div class="wrap">
+        <div class="section-head"><h2 id="overview-h">Pilot overview</h2><p>The project asks whether public listings that explicitly mention AI contain different language cues from other listings. It uses real headlines and snippets.</p></div>
+        <div class="grid grid--top">
+          <div class="span-5">
+            <p class="pilot-statement">A methods pilot with clear inferential boundaries.</p>
+            <ul class="method-principles">
+              <li><span>Unit</span><strong>One public section-page listing</strong></li>
+              <li><span>Source</span><strong>NPR politics and technology pages</strong></li>
+              <li><span>Audit</span><strong>URL, time, evidence span, checksums</strong></li>
+            </ul>
+            <a class="link" href="research-pilot-files/portfolio_summary.md">Read the portfolio summary</a>
+          </div>
+          <div class="span-6 start-7 pilot-card" role="img" aria-label="Four-stage research workflow from preregistration to auditable publication">
+            <div class="pilot-card__head"><span>RESEARCH LOOP</span><span>Visible at every step</span></div>
+            <ol class="process-list">
+              <li><span class="process-number">01</span><div><strong>Pre-register</strong><span>Question, hypotheses, and analysis plan written before analysis.</span></div><i>Rule</i></li>
+              <li><span class="process-number">02</span><div><strong>Collect real listings</strong><span>Public NPR pages with URLs, timestamps, and raw snapshots.</span></div><i>Data</i></li>
+              <li><span class="process-number">03</span><div><strong>Code with evidence</strong><span>ID-aligned codes, evidence spans, and second-pass check.</span></div><i>Codes</i></li>
+              <li><span class="process-number">04</span><div><strong>Analyze and bound</strong><span>Risk differences, exact tests, resampling intervals, limits.</span></div><i>Result</i></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-ruled" id="design" aria-labelledby="design-h">
+      <div class="wrap">
+        <div class="section-head"><h2 id="design-h">Pilot sample</h2><p>The revised design separates explicit AI cues from technology/business and general-politics cues, so the main construct stays clean.</p></div>
+        <div class="grid grid--top">
+          <div class="span-6">
+            <div class="scope-list">
+              <div><span>Explicit AI</span><p>Listings naming AI, OpenAI, ChatGPT, artificial intelligence, or machine learning.</p><b>n=10</b></div>
+              <div><span>Technology/business</span><p>Company, platform, chip, or product news without an explicit AI claim.</p><b>n=5</b></div>
+              <div><span>General politics</span><p>Elections, courts, policy, and public institutions outside the tech frame.</p><b>n=14</b></div>
+              <div><span>Broad legacy</span><p>The earlier AI/tech umbrella label retained only for audit and comparison.</p><b>n=15</b></div>
+            </div>
+          </div>
+          <div class="span-6 start-7 pilot-card" role="img" aria-label="Sample composition showing 30 public NPR listings">
+            <div class="pilot-card__head"><span>SAMPLE</span><span>30 listings</span></div>
+            <div class="pilot-metrics">
+              <div><small>Public pages</small><strong>3</strong><span>2 succeeded · 1 returned 404</span></div>
+              <div><small>Analytic variables</small><strong>8</strong><span>All coded with evidence notes</span></div>
+              <div><small>Second pass</small><strong>6</strong><span>Variable-level agreement 1.000</span></div>
+              <div><small>Missing cells</small><strong>0</strong><span>Across coded analytic variables</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="results" aria-labelledby="results-h">
+      <div class="wrap">
+        <div class="section-head"><h2 id="results-h">Pilot results</h2><p>Descriptive estimates are reported with exact tests and internal resampling intervals. No audience effect or causal claim is made.</p></div>
+        <div class="grid grid--top results-grid">
+          <div class="span-6">
+            <div class="pilot-table" role="table" aria-label="Main pilot results">
+              <div class="pilot-table__head" role="row"><span>Hypothesis</span><span>Estimate</span><span>Exact test</span><span>Interval</span></div>
+              <div role="row"><span>H1 · accountability cue</span><strong>AI 0.400 vs comparison 0.250 · RD 0.150</strong><strong>Fisher p = 0.431</strong><span>[-0.15, 0.55]</span></div>
+              <div role="row"><span>H2 · named actor</span><strong>AI 1.000 vs comparison 0.900 · RD 0.100</strong><strong>Fisher p = 0.540</strong><span>[0, 0.25]</span></div>
+              <div role="row"><span>Exploratory · uncertainty</span><strong>AI 0.800 vs comparison 0.200 · RD 0.600</strong><strong>Fisher p = 0.004</strong><span>[0.25, 0.90]</span></div>
+            </div>
+            <p class="pilot-note">H1 and H2 do not clear conventional significance thresholds. The exploratory uncertainty result is descriptive and should be treated as hypothesis-generating.</p>
+          </div>
+          <div class="span-6 start-7 pilot-card results-card" role="img" aria-label="Result boundaries: two null primary tests, one exploratory signal, and no causal claim">
+            <div class="pilot-card__head"><span>RESULT BOUNDARIES</span><span>Read before interpreting</span></div>
+            <ol class="process-list">
+              <li><span class="process-number">01</span><div><strong>Primary tests</strong><span>H1 and H2 are not statistically significant in this sample.</span></div><i>Null</i></li>
+              <li><span class="process-number">02</span><div><strong>Exploratory cue</strong><span>Uncertainty language differs descriptively and is hypothesis-generating.</span></div><i>Signal</i></li>
+              <li><span class="process-number">03</span><div><strong>No causal claim</strong><span>The design is a public-listing content analysis, not an audience experiment.</span></div><i>Scope</i></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section statement" id="audit" data-moment="word-highlight" aria-labelledby="audit-h">
+      <div class="wrap question-wrap">
+        <p class="t-label">Audit discipline</p>
+        <h2 class="mo-wh__text" id="audit-h">The pilot favors a small claim. <strong>Every statement keeps a visible trail.</strong></h2>
+        <p class="question-meta-line">Pre-registration · evidence spans · checksums · runtime metadata · explicit scope</p>
+      </div>
+    </section>
+
+    <section class="section bg-ruled" id="scope" aria-labelledby="scope-h">
+      <div class="wrap">
+        <div class="section-head"><h2 id="scope-h">Claim boundaries</h2><p>This pilot supports a claim about methodological discipline. It does not support claims about audiences, full-article framing, or population-level media effects.</p></div>
+        <div class="grid grid--top">
+          <div class="span-6">
+            <div class="scope-list">
+              <div><span>Supports</span><p>A transparent workflow from real public data to auditable coding and bounded analysis.</p><b>Yes</b></div>
+              <div><span>Audience effects</span><p>No exposure, survey, experiment, or perception measure is present.</p><b>No</b></div>
+              <div><span>Full framing</span><p>The unit is headline and snippet. Full article text and layout are outside scope.</p><b>No</b></div>
+              <div><span>Generalization</span><p>The sample is small, time-stamped, and drawn from public section pages.</p><b>Limited</b></div>
+            </div>
+          </div>
+          <div class="span-6 start-7 pilot-card" role="img" aria-label="Download and reproduction links for the research pilot">
+            <div class="pilot-card__head"><span>FILES</span><span>Open the audit trail</span></div>
+            <div class="pilot-links">
+              <a href="research-pilot-files/results.md">Results <span>results.md</span></a>
+              <a href="research-pilot-files/real_coded_sample.csv">Coded sample <span>CSV</span></a>
+              <a href="research-pilot-files/human_codes.json">Human codes <span>JSON</span></a>
+              <a href="research-pilot-files/codebook.md">Codebook <span>MD</span></a>
+              <a href="research-pilot-files/preregistration.md">Pre-registration <span>MD</span></a>
+              <a href="research-pilot-files/limitations.md">Limitations <span>MD</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+    <div class="wrap">
+      <div class="closing__cta close--word">
+        <div class="section-head--split">
+          <div><h2 id="close-h">Research Workbench</h2><p class="t-lead">Open the workbench, or read the pilot that shows the method in practice.</p></div>
+          <a class="btn btn--primary" href="index.html">Open workbench</a>
+        </div>
+        <p class="close__word" aria-hidden="true">Methods</p>
+      </div>
+      <div class="closing__links">
+        <div class="grid">
+          <div class="span-4 stack-4"><a class="nav__logo" href="index.html">AI × Political Communication</a><p class="footer__lede">A browser-based methods workbench and a real-data research pilot.</p></div>
+          <div class="span-2 footer__col"><h3>Study</h3><ul><li>Overview</li><li>Design</li><li>Results</li></ul></div>
+          <div class="span-2 footer__col"><h3>Audit</h3><ul><li>Pre-registration</li><li>Codebook</li><li>Limitations</li></ul></div>
+          <div class="span-2 footer__col"><h3>Scope</h3><ul><li>No audience claims</li><li>No causal claims</li><li>Public listings only</li></ul></div>
+          <div class="span-2 footer__col"><h3>Source</h3><ul><li>Static HTML</li><li>NPR public pages</li><li>GitHub Pages ready</li></ul></div>
+        </div>
+        <div class="footer__legal"><span>© 2026 Research Workbench</span><span>Built for transparent quantitative research.</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="actionbar" aria-label="Quick actions"><a class="btn btn--primary" href="#results">Read results</a></nav>
+
+  <script type="module" src="assets/system.js"></script>
+  <script type="module" src="assets/motion/motion.js"></script>
+  <script type="module" src="assets/layout/layout.js"></script>
+  <script type="module" src="assets/moments/moments.js"></script>
+</body>
+</html>

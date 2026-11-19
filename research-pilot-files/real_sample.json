@@ -1,0 +1,222 @@
+{
+  "fetched_at": "2026-11-18T09:18:57.375Z",
+  "n": 30,
+  "failures": [
+    {
+      "page": "https://www.npr.org/sections/technology/ai/",
+      "error": "HTTP 404"
+    }
+  ],
+  "items": [
+    {
+      "url": "https://www.npr.org/2026/11/17/g-s1-151567/alaska-senate-results-peltola-sullivan",
+      "headline": "Mary Peltola flips Alaska's Senate seat into Democrats' column",
+      "snippet": "November 17, 2026 - Former Democratic Rep. Mary Peltola has narrowly won Alaska's U.S. Senate race, toppling the Republican incumbent, according to a race call by The Associated Press.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/17/nx-s1-6044213/jensen-huang-nvidia-congress",
+      "headline": "Nvidia board says it does not intend to reinstate Jensen Huang as CEO",
+      "snippet": "November 17, 2026 - The former Nvidia CEO said he would be \"honored\" to return if the board allowed. But the board says it has no intention of reinstating him.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/17/g-s1-153950/up-first-newsletter-faa-ground-stop-trump-asia-trip-nvidia-lindsay-clancy",
+      "headline": "Trump is in Asia ahead of Xi, Putin summit. And, tech leaders want Huang back at Nvidia",
+      "snippet": "November 17, 2026 - Trump says he plans to discuss Ukraine during his Asia trip, which contradicts what the White House previously announced. And, Silicon Valley leaders are pushing for Jensen Huang's return to Nvidia.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/17/nx-s1-6042514/jack-reed-faa-oversight-ground-stop-funding",
+      "headline": "Sen. Jack Reed says FAA needs a real plan, not just more money",
+      "snippet": "November 17, 2026 - Sen. Jack Reed raised concerns about FAA oversight of contractors after last week's nationwide ground stop and criticized the Trump administration's request for $50 billion in additional funding.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/17/nx-s1-6043702/trump-arrives-philippines",
+      "headline": "Trump arrives in Philippines to kick off Asia trip",
+      "snippet": "November 17, 2026 - Manila is President Trump's first stop on a three-day trip that will later take him to China for historic three-way nuclear talks with Chinese President Xi Jinping and Russian President Vladimir Putin.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/nx-s1-6042920/california-sues-openai-hugging-face-hacking-incident",
+      "headline": "California sues OpenAI over hacking risks",
+      "snippet": "November 16, 2026 - The state's attorney general started investigating OpenAI after the Hugging Face attack and now says this attack was \"entirely foreseeable\" due to OpenAI's poor security practices.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/nx-s1-6042883/nvidia-jensen-huang-commerce-department",
+      "headline": "U.S. tightens controls on remote access to AI technology amid Nvidia fallout",
+      "snippet": "November 16, 2026 - The new rule closes a loophole that existed that allowed Chinese companies to still access advanced AI chips remotely, despite U.S. restrictions on their physical sale to China.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/nx-s1-6042548/un-killer-robots-ai-weapons-drones",
+      "headline": "U.N. talks seek to rein in 'killer robots' as fears over AI weapons grow",
+      "snippet": "November 16, 2026 - Countries are meeting in Geneva to negotiate rules on weapons that can select and kill targets without human intervention. But with the U.S., Russia and Israel resisting legally binding controls, campaigners fear the window to act is closing.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/nx-s1-5983473/clancy-trial-retrial-murder-charges",
+      "headline": "Lindsay Clancy to face a new trial in spring of 2027 over children's killing",
+      "snippet": "November 16, 2026 - A new trial is set in Massachusetts against Lindsay Clancy as prosecutors seek a criminal conviction over the killing of her three young children.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/g-s1-153841/up-first-newsletter-faa-ground-stop-democratic-leaders-congress-trump-asia-trip",
+      "headline": "FAA ground stop still affecting thousands of flights. And, Trump meets Xi, Putin in Asia",
+      "snippet": "November 16, 2026 - U.S. Transportation Secretary Sean Duffy said that things could be back to normal at the end of Monday after an FAA ground stop disrupted flights. And, Trump heads to Asia for a high-profile trilateral summit.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/nx-s1-6041687/chris-van-hollen-chuck-schumer-senate-leader",
+      "headline": "Chris Van Hollen says he can beat Chuck Schumer. Here's his case",
+      "snippet": "November 16, 2026 - Sen. Chris Van Hollen told NPR's Morning Edition why he believes he can defeat Sen. Chuck Schumer and what he would change about Senate Democratic leadership.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/nx-s1-6041738/trump-xi-and-putin-china-nvidia",
+      "headline": "Trump heads to Asia to meet with Xi and Putin amid Nvidia fallout",
+      "snippet": "November 16, 2026 - The trip to China marks Trump's second time this year, and comes as the president and his party faced widespread backlash from voters in the recent midterm elections.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/13/nx-s1-6034941/affordability-childcare-midterms",
+      "headline": "Affordability was a key issue for midterm voters. It helped make childcare one, too",
+      "snippet": "November 16, 2026 - Childcare costs have surged, putting a major financial burden on U.S. families. Advocates say the subject once on the fringes of political debate became a major issue during the midterms.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/16/nx-s1-6037691/we-need-to-rethink-what-we-know-about-young-voters",
+      "headline": "We need to rethink what we know about young voters",
+      "snippet": "November 16, 2026 - What the midterms can tell us about the priorities of young Americans.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/15/nx-s1-6040194/new-mexico-free-universal-childcare-families",
+      "headline": "New Mexico wanted free childcare for all. This is what's worked — and what hasn't",
+      "snippet": "November 15, 2026 - A year ago in November, New Mexico became the first state to offer free childcare to every eligible family, regardless of income.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/15/nx-s1-6039175/midterms-legislatures-states-democrats-gop",
+      "headline": "Midterm voters ended the long-running GOP dominance in state legislatures",
+      "snippet": "November 15, 2026 - In several states, Democrats took control of legislatures that had been divided and they weakened GOP dominance in others. Issues on the agenda: More access to health care, new limits on school vouchers.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/14/nx-s1-6041152/judge-trump-golf-course-blocks",
+      "headline": "Trump blasts judge for halting his Washington golf project and says he will appeal",
+      "snippet": "November 14, 2026 - A federal judge on Saturday ordered a two-week delay to any work at a historic Washington public golf course not far from the White House.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/14/nx-s1-6041093/st-patricks-day-parade-canceled-florida-dei",
+      "headline": "Florida city cancels St. Patrick's Day parade, citing new anti-DEI law",
+      "snippet": "November 14, 2026 - A new Florida law that prohibits taxpayer dollars from going toward diversity initiatives has prompted Delray Beach to cancel its St. Patrick's Day parade after a nearly 60-year run.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/14/nx-s1-6037777/democrats-midterms-whats-next-conference",
+      "headline": "'We can't let them down' -- After midterm wins, Democrats turn to charting path ahead",
+      "snippet": "November 14, 2026 - Democrats from across the country descended on Denver for a two-day conference to chart the course of their party after sweeping victories in the midterm elections.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/14/nx-s1-6034952/alaska-results-ranked-choice-voting-nonpartisan-primary",
+      "headline": "Alaska voters aren't ditching ranked choice voting, top-four primaries",
+      "snippet": "November 14, 2026 - This is the second time Alaskans voted down an effort to repeal the state's unique election system, which voters first approved in 2020. A repeal effort in 2024 also failed narrowly.",
+      "source_page": "https://www.npr.org/sections/politics/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/17/nx-s1-6037556/medicine-ai-doctor-notetaker-scribe",
+      "headline": "I'm a human doctor with human intelligence. But I sure do like my AI notetaker",
+      "snippet": "November 17, 2026 - Has your doctor asked whether they can use artificial intelligence to take notes during an exam? It's very popular, and here's how to think through the pros and the cons of the new technology.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/17/nx-s1-6035684/school-cellphone-ban-learning-loss-yondr-research",
+      "headline": "Does locking up a student's cellphone improve test scores? A new study suggests so",
+      "snippet": "November 17, 2026 - A new study of school cellphone bans finds they may help students make up for some of the learning they've lost since 2013 – a divergence from earlier study results.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/13/nx-s1-6040280/can-jensen-huangs-departure-help-nvidias-competitors-catch-up",
+      "headline": "Can Jensen Huang's departure help Nvidia's competitors catch up?",
+      "snippet": "November 13, 2026 - Nvidia has long been the kingpin of the semiconductor industry – a company whose huge technological bets paid off, making its microchips the most in-demand in the world.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidia-interim-ceo-colette-kress-ai-bets-investigation-lutnick",
+      "headline": "Nvidia's interim CEO inherits risky AI bets and a legal mess",
+      "snippet": "November 13, 2026 - AI expert Gary Marcus breaks down what's at stake for Nvidia and the mess its new CEO has inherited.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/13/nx-s1-6029408/google-ai-search-schools",
+      "headline": "Why is Google cutting off Search from AI-free schools? Here are some theories",
+      "snippet": "November 13, 2026 - The forthcoming move has left some parents and educators frustrated and wondering about the company's motivations.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/12/nx-s1-6039343/outlook-down-widespread-outage-microsoft-email",
+      "headline": "A negative Outlook: Microsoft scrambles to fix email outage",
+      "snippet": "November 12, 2026 - Early Friday, after Outlook had been down for more than 12 hours, Microsoft reported \"marginal success.\"",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/12/nx-s1-6037833/jensen-huang-nvidia-stepped-down",
+      "headline": "Nvidia CEO Jensen Huang steps down amid alleged spy scandal",
+      "snippet": "November 12, 2026 - Huang co-founded the chipmaker Nvidia, which has become one of the driving forces behind the AI boom. But reports that he may have had an affair with an alleged Chinese spy quickly sank his career.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/11/nx-s1-6034449/ai-911-calls-swatting",
+      "headline": "Swatters are using AI voices to deceive 911 dispatchers, and it's only getting worse",
+      "snippet": "November 11, 2026 - Swatters are increasingly using AI technology that creates synthetic voices or sound effects to generate remarkably believable fake emergency calls to law enforcement.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/10/nx-s1-6030962/testing-the-new-generation-of-ai-enabled-fire-extinguishing-drones",
+      "headline": "Testing the new generation of AI-enabled fire-extinguishing drones",
+      "snippet": "November 10, 2026 - Drone makers are testing new, big drones that can deliver water or fire retardant with AI assistance. Aspen, Colorado is the first place trying them out. Cool and expensive? Yes. Effective? TBD.",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    },
+    {
+      "url": "https://www.npr.org/2026/11/09/g-s1-151519/why-a-south-korean-city-is-turning-to-a-u-s-college-to-outsmart-ai",
+      "headline": "Why a South Korean city is turning to a U.S. college to outsmart AI?",
+      "snippet": "November 9, 2026 - Through civic participation and liberal education, South Korean educators hope to \"quietly stitch the fabric of our democracy…before it unravels beyond repair.\"",
+      "source_page": "https://www.npr.org/sections/technology/",
+      "fetched_at": "2026-11-18T09:18:57.375Z"
+    }
+  ]
+}

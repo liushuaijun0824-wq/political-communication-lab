@@ -1,0 +1,569 @@
+{
+  "study": "Real public NPR listing-level language-cue pilot (revised)",
+  "generated_at": "2026-11-18T11:55:13.114Z",
+  "fetched_at": "2026-11-18T09:18:57.375Z",
+  "runtime": {
+    "node": "v24.22.1",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "n": 30,
+  "counts": {
+    "ai_explicit": 10,
+    "tech_business": 5,
+    "general_politics": 14,
+    "broad_ai_tech": 15
+  },
+  "failures": [
+    {
+      "page": "https://www.npr.org/sections/technology/ai/",
+      "error": "HTTP 404"
+    }
+  ],
+  "descriptions": {
+    "ai_explicit": {
+      "n": 30,
+      "mean": 0.3333333333333333,
+      "sd": 0.47946330148538424,
+      "median": 0,
+      "min": 0,
+      "max": 1,
+      "q1": 0,
+      "q3": 1
+    },
+    "tech_business": {
+      "n": 30,
+      "mean": 0.16666666666666666,
+      "sd": 0.3790490217894516,
+      "median": 0,
+      "min": 0,
+      "max": 1,
+      "q1": 0,
+      "q3": 0
+    },
+    "general_politics": {
+      "n": 30,
+      "mean": 0.4666666666666667,
+      "sd": 0.507416263404925,
+      "median": 0,
+      "min": 0,
+      "max": 1,
+      "q1": 0,
+      "q3": 1
+    },
+    "broad_ai_tech": {
+      "n": 30,
+      "mean": 0.5,
+      "sd": 0.5085476277156078,
+      "median": 0.5,
+      "min": 0,
+      "max": 1,
+      "q1": 0,
+      "q3": 1
+    },
+    "political_relevance": {
+      "n": 30,
+      "mean": 0.7666666666666667,
+      "sd": 0.4301830671520763,
+      "median": 1,
+      "min": 0,
+      "max": 1,
+      "q1": 1,
+      "q3": 1
+    },
+    "named_actor_present": {
+      "n": 30,
+      "mean": 0.9333333333333333,
+      "sd": 0.2537081317024625,
+      "median": 1,
+      "min": 0,
+      "max": 1,
+      "q1": 1,
+      "q3": 1
+    },
+    "accountability_language": {
+      "n": 30,
+      "mean": 0.3,
+      "sd": 0.46609159969939895,
+      "median": 0,
+      "min": 0,
+      "max": 1,
+      "q1": 0,
+      "q3": 1
+    },
+    "uncertainty_language": {
+      "n": 30,
+      "mean": 0.4,
+      "sd": 0.49827287912243995,
+      "median": 0,
+      "min": 0,
+      "max": 1,
+      "q1": 0,
+      "q3": 1
+    },
+    "rule_ai_explicit": {
+      "n": 30,
+      "mean": 0.3333333333333333,
+      "sd": 0.47946330148538424,
+      "median": 0,
+      "min": 0,
+      "max": 1,
+      "q1": 0,
+      "q3": 1
+    }
+  },
+  "frequencies": {
+    "ai_explicit": {
+      "column": "ai_explicit",
+      "n": 30,
+      "levels": [
+        {
+          "label": "0",
+          "count": 20,
+          "share": 0.6666666666666666
+        },
+        {
+          "label": "1",
+          "count": 10,
+          "share": 0.3333333333333333
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "tech_business": {
+      "column": "tech_business",
+      "n": 30,
+      "levels": [
+        {
+          "label": "0",
+          "count": 25,
+          "share": 0.8333333333333334
+        },
+        {
+          "label": "1",
+          "count": 5,
+          "share": 0.16666666666666666
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "general_politics": {
+      "column": "general_politics",
+      "n": 30,
+      "levels": [
+        {
+          "label": "0",
+          "count": 16,
+          "share": 0.5333333333333333
+        },
+        {
+          "label": "1",
+          "count": 14,
+          "share": 0.4666666666666667
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "broad_ai_tech": {
+      "column": "broad_ai_tech",
+      "n": 30,
+      "levels": [
+        {
+          "label": "0",
+          "count": 15,
+          "share": 0.5
+        },
+        {
+          "label": "1",
+          "count": 15,
+          "share": 0.5
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "political_relevance": {
+      "column": "political_relevance",
+      "n": 30,
+      "levels": [
+        {
+          "label": "1",
+          "count": 23,
+          "share": 0.7666666666666667
+        },
+        {
+          "label": "0",
+          "count": 7,
+          "share": 0.23333333333333334
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "named_actor_present": {
+      "column": "named_actor_present",
+      "n": 30,
+      "levels": [
+        {
+          "label": "1",
+          "count": 28,
+          "share": 0.9333333333333333
+        },
+        {
+          "label": "0",
+          "count": 2,
+          "share": 0.06666666666666667
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "accountability_language": {
+      "column": "accountability_language",
+      "n": 30,
+      "levels": [
+        {
+          "label": "0",
+          "count": 21,
+          "share": 0.7
+        },
+        {
+          "label": "1",
+          "count": 9,
+          "share": 0.3
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "uncertainty_language": {
+      "column": "uncertainty_language",
+      "n": 30,
+      "levels": [
+        {
+          "label": "0",
+          "count": 18,
+          "share": 0.6
+        },
+        {
+          "label": "1",
+          "count": 12,
+          "share": 0.4
+        }
+      ],
+      "omittedLevels": 0
+    },
+    "rule_ai_explicit": {
+      "column": "rule_ai_explicit",
+      "n": 30,
+      "levels": [
+        {
+          "label": "0",
+          "count": 20,
+          "share": 0.6666666666666666
+        },
+        {
+          "label": "1",
+          "count": 10,
+          "share": 0.3333333333333333
+        }
+      ],
+      "omittedLevels": 0
+    }
+  },
+  "missing": {
+    "totalRows": 30,
+    "variables": [
+      {
+        "name": "item_id",
+        "inferredType": "categorical",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 30
+      },
+      {
+        "name": "ai_explicit",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "tech_business",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "general_politics",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "broad_ai_tech",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "political_relevance",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "named_actor_present",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "accountability_language",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "uncertainty_language",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "rule_ai_explicit",
+        "inferredType": "numeric",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "url",
+        "inferredType": "categorical",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 30
+      },
+      {
+        "name": "headline",
+        "inferredType": "categorical",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 30
+      },
+      {
+        "name": "source_page",
+        "inferredType": "categorical",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 2
+      },
+      {
+        "name": "fetched_at",
+        "inferredType": "categorical",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 1
+      },
+      {
+        "name": "evidence_span",
+        "inferredType": "categorical",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 30
+      },
+      {
+        "name": "coding_note",
+        "inferredType": "categorical",
+        "n": 30,
+        "missing": 0,
+        "missingShare": 0,
+        "completeCases": 30,
+        "uniqueValues": 29
+      }
+    ],
+    "completeCaseRows": 30
+  },
+  "H1_accountability_language": {
+    "label": "H1 accountability language by explicit AI",
+    "treatment_n": 10,
+    "comparison_n": 20,
+    "treatment_rate": 0.4,
+    "comparison_rate": 0.25,
+    "risk_difference": 0.15000000000000002,
+    "fisher_exact_p": 0.4310816619662152,
+    "bootstrap_risk_difference_ci": {
+      "lo": -0.15000000000000002,
+      "hi": 0.5499999999999999,
+      "iterations": 5000,
+      "seed": 20261118
+    },
+    "phi": 0.1543033499620921,
+    "phi_bootstrap_ci": {
+      "lo": -0.1962278122357481,
+      "hi": 0.5238095238095238,
+      "iterations": 5000,
+      "seed": 20261119
+    },
+    "cell_counts": {
+      "a": 4,
+      "b": 6,
+      "c": 5,
+      "d": 15
+    },
+    "note": "Treatment is explicit-AI coded; comparison is all remaining listings. Intervals are internal resampling intervals for a convenience sample, not population-level estimates."
+  },
+  "H2_named_actor_presence": {
+    "label": "H2 named-actor presence by explicit AI",
+    "treatment_n": 10,
+    "comparison_n": 20,
+    "treatment_rate": 1,
+    "comparison_rate": 0.9,
+    "risk_difference": 0.09999999999999998,
+    "fisher_exact_p": 0.5402298850574717,
+    "bootstrap_risk_difference_ci": {
+      "lo": 0,
+      "hi": 0.25,
+      "iterations": 5000,
+      "seed": 20261118
+    },
+    "phi": 0.18898223650461354,
+    "phi_bootstrap_ci": {
+      "lo": 0.10244389988519649,
+      "hi": 0.3535533905932737,
+      "iterations": 5000,
+      "seed": 20261119
+    },
+    "cell_counts": {
+      "a": 10,
+      "b": 0,
+      "c": 18,
+      "d": 2
+    },
+    "note": "Treatment is explicit-AI coded; comparison is all remaining listings. Intervals are internal resampling intervals for a convenience sample, not population-level estimates."
+  },
+  "exploratory_uncertainty_language": {
+    "label": "Exploratory uncertainty language by explicit AI",
+    "treatment_n": 10,
+    "comparison_n": 20,
+    "treatment_rate": 0.8,
+    "comparison_rate": 0.2,
+    "risk_difference": 0.6000000000000001,
+    "fisher_exact_p": 0.004111131247563022,
+    "bootstrap_risk_difference_ci": {
+      "lo": 0.25,
+      "hi": 0.9,
+      "iterations": 5000,
+      "seed": 20261118
+    },
+    "phi": 0.5773502691896254,
+    "phi_bootstrap_ci": {
+      "lo": 0.21320071635561044,
+      "hi": 0.8564593301435408,
+      "iterations": 5000,
+      "seed": 20261119
+    },
+    "cell_counts": {
+      "a": 8,
+      "b": 2,
+      "c": 4,
+      "d": 16
+    },
+    "note": "Treatment is explicit-AI coded; comparison is all remaining listings. Intervals are internal resampling intervals for a convenience sample, not population-level estimates."
+  },
+  "H3_human_rule_agreement": {
+    "n": 30,
+    "levels": [
+      "0",
+      "1"
+    ],
+    "matrix": [
+      [
+        20,
+        0
+      ],
+      [
+        0,
+        10
+      ]
+    ],
+    "observedAgreement": 1,
+    "expectedAgreement": 0.5555555555555556,
+    "kappa": 1,
+    "rule_mismatch_count": 0,
+    "rule_mismatch_items": [],
+    "note": "The rule was defined to match the explicit-AI coding after the audit; kappa=1 is a rule-construction check, not independent validation."
+  },
+  "intracoder_second_pass": {
+    "subsample_n": 6,
+    "note": "Second pass after codebook clarification, performed on a 6-item (20%) subsample selected by fixed positions I02, I06, I08, I17, I20, I28. This is an intracoder consistency check, not independent intercoder reliability.",
+    "agreement_by_variable": {
+      "ai_explicit": {
+        "n": 6,
+        "agreement": 1
+      },
+      "tech_business": {
+        "n": 6,
+        "agreement": 1
+      },
+      "general_politics": {
+        "n": 6,
+        "agreement": 1
+      },
+      "broad_ai_tech": {
+        "n": 6,
+        "agreement": 1
+      },
+      "political_relevance": {
+        "n": 6,
+        "agreement": 1
+      },
+      "named_actor_present": {
+        "n": 6,
+        "agreement": 1
+      },
+      "accountability_language": {
+        "n": 6,
+        "agreement": 1
+      },
+      "uncertainty_language": {
+        "n": 6,
+        "agreement": 1
+      }
+    }
+  },
+  "interpretation_guardrail": "Descriptive listing-level content analysis of public headlines/snippets only. Not a survey, not an experiment, not framing analysis of full articles, and not evidence about audience effects."
+}

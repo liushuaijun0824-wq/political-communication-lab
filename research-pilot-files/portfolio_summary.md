@@ -1,0 +1,7 @@
+# Portfolio summary: real public listing-level language-cue pilot
+
+This pilot demonstrates a transparent small-sample content-analysis workflow in AI-mediated political communication. I collected a real, time-stamped sample of 30 public NPR politics/technology section listings, wrote a codebook, coded listing-level language cues with evidence spans, applied a deterministic explicit-AI keyword rule, and analyzed the coded sample with reusable statistical functions.
+
+The revised design separates explicit AI cues from technology/business and general-politics cues. The primary comparison asks whether listings that explicitly mention AI differ from the remaining listings in named-actor presence, accountability cues, and uncertainty cues. Binary outcomes are analyzed with risk differences, Fisher's exact tests, internal bootstrap intervals, and phi coefficients. A 6-item second coding pass is reported as an intracoder consistency check, not as intercoder reliability.
+
+The value of this project is not a substantive claim about audiences or full-article framing. It is the audit trail: preregistration, theory rationale, real public data, codebook, evidence-span coding, deterministic rule documentation, self-contained reproducible analysis, checksums, effect sizes/resampling intervals, and explicit limitations. It demonstrates how I would approach a small empirical content-analysis project without overstating causal or generalizable conclusions.
