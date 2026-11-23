@@ -55,9 +55,11 @@
       <a class="nav__logo" href="#top">AI Politics</a>
       <nav class="nav__links" aria-label="Main">
         <div class="nav__item"><a class="nav__link" href="#workbench">Workbench</a></div>
+        <div class="nav__item"><a class="nav__link" href="#evidence">Evidence</a></div>
         <div class="nav__item"><a class="nav__link" href="#extract">Extract</a></div>
         <div class="nav__item"><a class="nav__link" href="research-pilot.html">Pilot</a></div>
         <div class="nav__item"><a class="nav__link" href="#method">Method</a></div>
+        <div class="nav__item"><a class="nav__link" href="#simulator">Simulator</a></div>
         <div class="nav__item"><a class="nav__link" href="#boundaries">Boundaries</a></div>
         <div class="nav__item"><a class="nav__link" href="#questions">Questions</a></div>
       </nav>
@@ -73,8 +75,8 @@
       <div class="wrap">
         <div class="hero-text grid hero__grid">
           <div class="hero__text span-5">
-          <p class="hero__kicker"><span class="dot" aria-hidden="true"></span>Local analysis · 15 modules · No data uploads</p>
-          <h1 id="hero-h">Research that shows its work.</h1>
+      <p class="hero__kicker"><span class="dot" aria-hidden="true"></span>Local analysis · 13 modules · No data uploads</p>
+          <h1 id="hero-h">Research that shows its work</h1>
           <p class="hero__lead">A browser workbench for political communication research. Load a CSV, run a transparent test, and keep the method beside the result.</p>
           <div class="btn-row">
             <a class="btn btn--primary" href="#workbench">Open the research workbench</a>
@@ -97,6 +99,57 @@
                   <div data-edge-free><span>P003</span><span>clear</span><span>clear</span></div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-halo" id="evidence" aria-labelledby="evidence-h">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="evidence-h">Pilot evidence</h2>
+          <p>Thirty public NPR listings, fetched and coded in November 2026, tested two preregistered hypotheses and one exploratory cue. The nulls stay visible beside the finding.</p>
+        </div>
+        <div class="grid evidence-grid">
+          <div class="span-6 evidence-panel">
+            <div class="evidence-head"><span>PREREGISTERED</span><span>n = 30</span></div>
+            <div class="evidence-row">
+              <div><small>H1 · accountability language</small><strong>40% vs 25%</strong></div>
+              <p>Explicit-AI listings show a 15-point descriptive difference.</p>
+              <i>Null · p = .431</i>
+            </div>
+            <div class="evidence-row">
+              <div><small>H2 · named actor</small><strong>100% vs 90%</strong></div>
+              <p>Both groups almost always name an actor or institution.</p>
+              <i>Null · p = .540</i>
+            </div>
+            <div class="evidence-row">
+              <div><small>Exploratory · uncertainty language</small><strong>80% vs 20%</strong></div>
+              <p>A large difference appears, but this cue was not preregistered.</p>
+              <i>Exploratory · p = .004</i>
+            </div>
+          </div>
+          <div class="span-6 start-7 evidence-audit">
+            <div class="evidence-head"><span>AUDIT TRAIL</span><span>Human final codes</span></div>
+            <div class="evidence-metric">
+              <small>Listings in the sample</small>
+              <strong><span data-m-count="30">0</span></strong>
+              <em>Public listing unit</em>
+            </div>
+            <div class="evidence-metric">
+              <small>Second-pass subsample</small>
+              <strong><span data-m-count="6">0</span></strong>
+              <em>Intracoder check · 100% agreement</em>
+            </div>
+            <div class="evidence-bars" role="img" aria-label="Comparison bars showing 40 percent for explicit AI listings and 25 percent for comparison listings">
+              <div><span>Explicit AI</span><b style="--bar: 40%"></b><small>40%</small></div>
+              <div><span>Comparison</span><b style="--bar: 25%"></b><small>25%</small></div>
+            </div>
+            <p class="evidence-note">Descriptive analysis of headlines and snippets. It is not a survey, experiment, or claim about audiences.</p>
+            <div class="evidence-links">
+              <a class="link" href="research-pilot.html">Read the pilot results</a>
+              <a class="link" href="research-pilot-files/checksums.sha256">Inspect file checksums</a>
             </div>
           </div>
         </div>
@@ -134,6 +187,7 @@
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-regression" id="tab-regression" tabindex="-1">Regression</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-coding" id="tab-coding" tabindex="-1">Coding audit</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-multicoder" id="tab-multicoder" tabindex="-1">Multi-coder</button>
+              <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-power" id="tab-power" tabindex="-1">Power</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-recipe" id="tab-recipe" tabindex="-1">Method note</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-extract" id="tab-extract" tabindex="-1">URL extract</button>
             </div>
@@ -296,6 +350,23 @@
                 <pre class="rw-code" id="methodNote">Run an analysis first. Its method note will appear here.</pre>
                 <button class="rw-button" type="button" id="copyMethod" disabled>Copy method note</button>
               </section>
+              <section class="rw-panel" id="panel-power" role="tabpanel" aria-labelledby="tab-power" hidden>
+                <div class="rw-panel-head">
+                  <div><span class="rw-kicker">STUDY DESIGN</span><h3>Sample size planner</h3></div>
+                  <span class="rw-tag">Two proportions</span>
+                </div>
+                <p class="rw-help">Plan the sample before collecting more listings. Enter the baseline share, the share you expect in the other group, the two-sided alpha, and the target power.</p>
+                <form class="rw-form" data-analysis="power">
+                  <div class="rw-grid-fields">
+                    <div class="rw-field"><label for="powerBaseline">Baseline share</label><input id="powerBaseline" name="baseline" type="number" min="0" max="1" step="0.01" value="0.25"></div>
+                    <div class="rw-field"><label for="powerExpected">Expected share</label><input id="powerExpected" name="expected" type="number" min="0" max="1" step="0.01" value="0.40"></div>
+                    <div class="rw-field"><label for="powerAlpha">Two-sided alpha</label><input id="powerAlpha" name="alpha" type="number" min="0" max="1" step="0.01" value="0.05"></div>
+                    <div class="rw-field"><label for="powerTarget">Target power</label><input id="powerTarget" name="power" type="number" min="0" max="1" step="0.01" value="0.80"></div>
+                  </div>
+                  <button class="rw-button" type="submit">Estimate sample size</button>
+                </form>
+                <div class="rw-result" id="powerResult" aria-live="polite"></div>
+              </section>
               <section class="rw-panel" id="panel-extract" role="tabpanel" aria-labelledby="tab-extract" hidden>
                 <div class="rw-panel-head">
                   <div><span class="rw-kicker">URL EXTRACT</span><h3>Public page parser</h3></div>
@@ -395,6 +466,44 @@
               <li><span class="process-number">04</span><div><strong>Inspect assumptions</strong><span>Read the sample, spread, and warnings beside the result.</span></div><i>Check</i></li>
               <li><span class="process-number">05</span><div><strong>Export the record</strong><span>Keep the result, method, and analyzed sample together.</span></div><i>Evidence</i></li>
             </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="simulator" aria-labelledby="simulator-h">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="simulator-h">Speaker instability, step by step</h2>
+          <p>This is a construct demonstration, not an experiment. Move the two design levers and read how attribution clarity and production disclosure change together in the model.</p>
+        </div>
+        <div class="grid simulator-grid">
+          <div class="span-5 simulator-copy">
+            <p class="method-statement">Doctoral agenda: make <strong>attribution certainty</strong> and <strong>production transparency</strong> measurable before asking about credibility.</p>
+            <ul class="method-principles">
+              <li><span>Attribution clarity</span><strong>Who is accountable?</strong></li>
+              <li><span>Production disclosure</span><strong>How was it made?</strong></li>
+            </ul>
+            <p class="simulator-note">The output uses a fixed illustrative scale. It does not estimate audience effects.</p>
+          </div>
+          <div class="span-6 start-7 simulator-board" data-ly-hold="1400" data-ly-steps="600">
+            <div class="simulator-head"><span>CONSTRUCT DEMO</span><span>No respondent data</span></div>
+            <div class="simulator-inputs" data-step>
+              <label for="simAttribution">Attribution clarity</label>
+              <input id="simAttribution" type="range" min="0" max="100" value="45" aria-describedby="simAttributionValue">
+              <output id="simAttributionValue">45</output>
+            </div>
+            <div class="simulator-inputs" data-step>
+              <label for="simDisclosure">Production disclosure</label>
+              <input id="simDisclosure" type="range" min="0" max="100" value="60" aria-describedby="simDisclosureValue">
+              <output id="simDisclosureValue">60</output>
+            </div>
+            <div class="simulator-output" data-step>
+              <div><small>Attribution certainty</small><strong id="simCertainty">0</strong></div>
+              <div><small>Production transparency</small><strong id="simTransparency">0</strong></div>
+              <div><small>Instability alert</small><strong id="simAlert">Review</strong></div>
+            </div>
+            <p class="simulator-caption">Design levers combine. Neither replaces substantive validation.</p>
           </div>
         </div>
       </div>

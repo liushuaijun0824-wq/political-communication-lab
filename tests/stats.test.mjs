@@ -7,13 +7,16 @@ import {
   cronbachAlphaWithOptions,
   describe,
   frequencyTable,
+  fisherExactTwoSidedP,
   groupComparison,
   missingDataReport,
+  normalQuantile,
   ols,
   parseCSV,
   pearson,
   reverseCode,
   skewness,
+  twoProportionSampleSize,
 } from "../stats.js";
 
 const close = (actual, expected, tolerance = 1e-5) => {
@@ -141,4 +144,23 @@ test("Cronbach alpha options reverse-code selected items and report alpha if del
   close(result.alpha, 1);
   assert.deepEqual(result.reverse, ["b"]);
   result.alphaIfDeleted.forEach((value) => close(value, 1));
+});
+
+test("normal quantile reproduces standard critical values", () => {
+  close(normalQuantile(0.975), 1.9599639845, 1e-8);
+  close(normalQuantile(0.8), 0.8416212336, 1e-8);
+  close(normalQuantile(0.5), 0);
+});
+
+test("Fisher exact test reproduces the preregistered pilot result", () => {
+  const p = fisherExactTwoSidedP([[4, 6], [5, 15]]);
+  close(p, 0.4310816619662152, 1e-10);
+});
+
+test("two-proportion planner estimates a useful sample size", () => {
+  const result = twoProportionSampleSize(0.25, 0.4, 0.05, 0.8);
+  assert.equal(Number.isInteger(result.nPerGroup), true);
+  assert.ok(result.nPerGroup >= 140 && result.nPerGroup <= 170);
+  close(result.effectH, 0.3222408548, 1e-6);
+  assert.equal(twoProportionSampleSize(1, 1), null);
 });

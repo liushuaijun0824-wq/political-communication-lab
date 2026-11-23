@@ -504,6 +504,32 @@ export function normalTwoSidedP(z) {
   return Math.min(1, Math.max(0, 2 * upperTail));
 }
 
+export function normalQuantile(probability) {
+  const p = Number(probability);
+  if (!Number.isFinite(p) || p <= 0 || p >= 1) return null;
+
+  const centralNumerator = [-3.969683028665376e1, 2.209460984245205e2, -2.759285104469687e2, 1.383577518672690e2, -3.066479806614716e1, 2.506628277459239];
+  const centralDenominator = [-5.447609879822406e1, 1.615858368580409e2, -1.556989798598866e2, 6.680131188771972e1, -1.328068155288572e1];
+  const tailNumerator = [-7.784894992914605e-3, -3.223964580411365e-1, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+  const tailDenominator = [7.784695709041462e-3, 3.224671290700398e-1, 2.445134137142996, 3.754408661907416];
+  const horner = (values, input) => values.reduce((sum, coefficient) => sum * input + coefficient, 0);
+
+  const pLow = 0.02425;
+  let x;
+  if (p < pLow) {
+    const q = Math.sqrt(-2 * Math.log(p));
+    x = horner(centralNumerator, q * q) * q / (horner(centralDenominator, q * q) * q * q + 1);
+  } else if (p <= 1 - pLow) {
+    const q = p - 0.5;
+    x = horner(centralNumerator, q * q) * q / (horner(centralDenominator, q * q) * q * q + 1);
+  } else {
+    const q = Math.sqrt(-2 * Math.log(1 - p));
+    x = horner(tailNumerator, q) / (horner(tailDenominator, q) * q + 1);
+  }
+
+  return x;
+}
+
 export function mannWhitneyUTest(rows, groupColumn, outcomeColumn) {
   const groups = new Map();
   rows.forEach((row) => {
@@ -564,6 +590,75 @@ export function mannWhitneyUTest(rows, groupColumn, outcomeColumn) {
     approximation: "normal approximation with tie correction and continuity correction",
     effect: Math.abs(z) / Math.sqrt(total),
     effectLabel: "r = |z| / sqrt(n)",
+  };
+}
+
+export function fisherExactTwoSidedP(table) {
+  if (!Array.isArray(table) || table.length !== 2 || table.some((row) => !Array.isArray(row) || row.length !== 2)) {
+    return null;
+  }
+  const counts = table.flat().map((value) => Number(value));
+  if (counts.some((count) => !Number.isInteger(count) || count < 0)) return null;
+  const [a, b, c, d] = counts;
+  const rowOne = a + b;
+  const rowTwo = c + d;
+  const columnOne = a + c;
+  const total = rowOne + rowTwo;
+  if (!total || !columnOne || columnOne === total || !rowOne || !rowTwo) return 1;
+
+  const logBase =
+    lnGamma(columnOne + 1) + lnGamma(total - columnOne + 1) +
+    lnGamma(rowOne + 1) + lnGamma(rowTwo + 1) - lnGamma(total + 1);
+  const probability = (x) =>
+    Math.exp(
+      logBase -
+      lnGamma(x + 1) - lnGamma(rowOne - x + 1) -
+      lnGamma(columnOne - x + 1) - lnGamma(rowTwo - columnOne + x + 1)
+    );
+  const observed = probability(a);
+  if (!Number.isFinite(observed)) return null;
+
+  let significantSum = 0;
+  let totalSum = 0;
+  const lower = Math.max(0, columnOne - rowTwo);
+  const upper = Math.min(rowOne, columnOne);
+  for (let x = lower; x <= upper; x += 1) {
+    const value = probability(x);
+    totalSum += value;
+    if (value <= observed * (1 + 1e-9)) significantSum += value;
+  }
+  return Math.min(1, Math.max(0, significantSum / (totalSum || 1)));
+}
+
+export function twoProportionSampleSize(p1, p2, alpha = 0.05, power = 0.8) {
+  const baseline = Number(p1);
+  const expected = Number(p2);
+  const alphaValue = Number(alpha);
+  const powerValue = Number(power);
+  if (
+    !Number.isFinite(baseline) || !Number.isFinite(expected) || !Number.isFinite(alphaValue) || !Number.isFinite(powerValue) ||
+    baseline <= 0 || baseline >= 1 || expected <= 0 || expected >= 1 ||
+    alphaValue <= 0 || alphaValue >= 1 || powerValue <= 0 || powerValue >= 1
+  ) {
+    return null;
+  }
+  const effectH = 2 * Math.asin(Math.sqrt(expected)) - 2 * Math.asin(Math.sqrt(baseline));
+  if (Math.abs(effectH) < EPSILON) return null;
+  const critical = normalQuantile(1 - alphaValue / 2);
+  const achieved = normalQuantile(powerValue);
+  if (critical === null || achieved === null) return null;
+  const pooledRate = (baseline + expected) / 2;
+  const pooledTerm = critical * Math.sqrt(2 * pooledRate * (1 - pooledRate));
+  const unpooledTerm = achieved * Math.sqrt(baseline * (1 - baseline) + expected * (1 - expected));
+  const differenceSquared = (expected - baseline) ** 2;
+  const exact = ((pooledTerm + unpooledTerm) ** 2) / differenceSquared;
+  return {
+    effectH,
+    nPerGroup: Math.ceil(exact),
+    totalN: 2 * Math.ceil(exact),
+    alpha: alphaValue,
+    power: powerValue,
+    method: "pooled normal approximation for a two-sided two-proportion comparison",
   };
 }
 

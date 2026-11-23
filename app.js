@@ -21,6 +21,7 @@ import {
   skewness,
   spearman,
   toNumber,
+  twoProportionSampleSize,
 } from "./stats.js";
 import {
   allowedHosts,
@@ -74,6 +75,10 @@ const elements = {
   aiLabel: document.querySelector("#aiLabel"),
   humanLabel: document.querySelector("#humanLabel"),
   coderItems: document.querySelector("#coderItems"),
+  powerBaseline: document.querySelector("#powerBaseline"),
+  powerExpected: document.querySelector("#powerExpected"),
+  powerAlpha: document.querySelector("#powerAlpha"),
+  powerTarget: document.querySelector("#powerTarget"),
   describeResult: document.querySelector("#describeResult"),
   dataHealthResult: document.querySelector("#dataHealthResult"),
   nonparametricResult: document.querySelector("#nonparametricResult"),
@@ -84,6 +89,7 @@ const elements = {
   regressionResult: document.querySelector("#regressionResult"),
   codingResult: document.querySelector("#codingResult"),
   multicoderResult: document.querySelector("#multicoderResult"),
+  powerResult: document.querySelector("#powerResult"),
   missingReport: document.querySelector("#missingReport"),
   methodNote: document.querySelector("#methodNote"),
   copyMethod: document.querySelector("#copyMethod"),
@@ -106,6 +112,7 @@ const results = {
   datahealth: elements.dataHealthResult,
   nonparametric: elements.nonparametricResult,
   multicoder: elements.multicoderResult,
+  power: elements.powerResult,
   missing: elements.missingReport,
   extract: elements.extractResult,
 };
@@ -121,6 +128,7 @@ elements.copyMethod.addEventListener("click", copyMethodNote);
 elements.compareMode.addEventListener("change", updateCompareFields);
 elements.nonparamMode.addEventListener("change", updateNonparamFields);
 elements.exportCollection.addEventListener("click", downloadExtractCollection);
+initializeSimulator();
 window.addEventListener("resize", renderPreview);
 loadPracticeData();
 
@@ -468,6 +476,7 @@ function initializeForms() {
       if (analysis === "regression") runRegression();
       if (analysis === "coding") runCodingAudit();
       if (analysis === "multicoder") runMultiCoder();
+      if (analysis === "power") runPowerAnalysis();
       if (analysis === "extract") runExtract();
       if (analysis === "paste") runPaste();
     });
@@ -859,6 +868,60 @@ function runMultiCoder() {
       ]),
     ]
   );
+}
+
+function runPowerAnalysis() {
+  const baseline = Number(elements.powerBaseline.value);
+  const expected = Number(elements.powerExpected.value);
+  const alpha = Number(elements.powerAlpha.value);
+  const power = Number(elements.powerTarget.value);
+  const result = twoProportionSampleSize(baseline, expected, alpha, power);
+  if (!result) {
+    showEmpty(results.power, "Enter shares between 0 and 1, plus an alpha and target power between 0 and 1.");
+    return;
+  }
+  results.power.innerHTML = `
+    <div class="rw-result-head"><h4>Required sample size</h4><span>${escapeHTML(result.method)}</span></div>
+    <div class="rw-stat-grid">
+      ${statMarkup("n per group", result.nPerGroup.toLocaleString("en-US"))}
+      ${statMarkup("Total n", result.totalN.toLocaleString("en-US"))}
+      ${statMarkup("Difference", formatPercent(Math.abs(expected - baseline)))}
+      ${statMarkup("Cohen’s h", formatNumber(result.effectH))}
+    </div>
+    <p class="rw-note">Planning approximation for independent groups. Recalculate after refining expected rates and account for attrition before collection.</p>`;
+  setActiveResult("Two-proportion sample size plan", [
+    { result: "Sample size plan", metric: "baseline share", value: baseline },
+    { result: "Sample size plan", metric: "expected share", value: expected },
+    { result: "Sample size plan", metric: "alpha two-sided", value: alpha },
+    { result: "Sample size plan", metric: "target power", value: power },
+    { result: "Sample size plan", metric: "n per group", value: result.nPerGroup },
+    { result: "Sample size plan", metric: "total n", value: result.totalN },
+    { result: "Sample size plan", metric: "Cohen h", value: round(result.effectH) },
+  ]);
+}
+
+function initializeSimulator() {
+  const attribution = document.querySelector("#simAttribution");
+  const disclosure = document.querySelector("#simDisclosure");
+  const attributionValue = document.querySelector("#simAttributionValue");
+  const disclosureValue = document.querySelector("#simDisclosureValue");
+  const certainty = document.querySelector("#simCertainty");
+  const transparency = document.querySelector("#simTransparency");
+  const alert = document.querySelector("#simAlert");
+  if (!attribution || !disclosure || !attributionValue || !disclosureValue || !certainty || !transparency || !alert) return;
+
+  const render = () => {
+    const attributionScore = Number(attribution.value);
+    const disclosureScore = Number(disclosure.value);
+    attributionValue.value = attributionScore;
+    disclosureValue.value = disclosureScore;
+    certainty.textContent = `${Math.round((attributionScore * 0.8 + disclosureScore * 0.2) * 10) / 10}`;
+    transparency.textContent = `${Math.round((disclosureScore * 0.8 + attributionScore * 0.2) * 10) / 10}`;
+    alert.textContent = Math.min(attributionScore, disclosureScore) < 50 ? "Review" : "Stable";
+  };
+  attribution.addEventListener("input", render);
+  disclosure.addEventListener("input", render);
+  render();
 }
 
 function matrixMarkup(title, matrix, rows, columns, transpose = false) {

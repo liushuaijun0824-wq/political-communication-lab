@@ -8,6 +8,7 @@ A static, browser-based workbench for quantitative checks and coding audits in A
 - Missing-data report with inferred variable types and complete cases
 - Data-quality audit: duplicate rows, repeated unit IDs, constant columns, missing fields, and IQR outliers
 - Descriptive statistics, histogram, skewness, and frequency tables
+- Two-proportion sample size planner with a two-sided alpha and target power
 - Cronbach's alpha with reverse-coded items and alpha-if-deleted
 - Welch independent-samples t-test and one-way ANOVA
 - Mann-Whitney U and Kruskal-Wallis H with rank summaries, tie correction, and effect sizes
@@ -20,6 +21,8 @@ A static, browser-based workbench for quantitative checks and coding audits in A
 - CSV export of the active result
 - Plain-text method note for the active result
 - URL extraction module for public pages: title, readable text, dates, outbound links, Markdown export, and pasted-text fallback
+- Evidence section for the real 30-listing NPR pilot, including preregistered nulls, an exploratory finding, and checksum links
+- Construct demonstration for attribution clarity and production disclosure
 - AI extraction review queue: collect extracted records and export a human-review CSV
 - Installable PWA shell and offline cache
 
