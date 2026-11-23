@@ -127,7 +127,7 @@ body { background: var(--bg); }
 .rw-tabs {
   padding: 8px;
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 5px;
   border-bottom: 1px solid var(--line);
   background: #fafafa;

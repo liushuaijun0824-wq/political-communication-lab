@@ -6,19 +6,26 @@ A static, browser-based workbench for quantitative checks and coding audits in A
 
 - Local CSV loading
 - Missing-data report with inferred variable types and complete cases
+- Data-quality audit: duplicate rows, repeated unit IDs, constant columns, missing fields, and IQR outliers
 - Descriptive statistics, histogram, skewness, and frequency tables
 - Cronbach's alpha with reverse-coded items and alpha-if-deleted
 - Welch independent-samples t-test and one-way ANOVA
+- Mann-Whitney U and Kruskal-Wallis H with rank summaries, tie correction, and effect sizes
 - Chi-square test with Cramer's V
 - Pearson correlation
+- Spearman rank correlation
 - Multiple OLS regression
 - Observed agreement and Cohen's kappa for AI-proposed versus human-final labels
+- Fleiss' kappa for three or more coders and pairwise Cohen's kappa diagnostics
 - CSV export of the active result
 - Plain-text method note for the active result
 - URL extraction module for public pages: title, readable text, dates, outbound links, Markdown export, and pasted-text fallback
+- AI extraction review queue: collect extracted records and export a human-review CSV
 - Installable PWA shell and offline cache
 
 The included `practice-data.csv` is synthetic and exists only to exercise the interface. It is not a research dataset and should not be cited as one.
+
+The AI extraction queue is intentionally separate from the analysis dataset. A downloaded review CSV should be checked by a human before the corrected file is loaded back into the workbench.
 
 ## Run locally
 

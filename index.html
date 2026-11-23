@@ -73,7 +73,7 @@
       <div class="wrap">
         <div class="hero-text grid hero__grid">
           <div class="hero__text span-5">
-          <p class="hero__kicker"><span class="dot" aria-hidden="true"></span>Local analysis · 11 modules · No data uploads</p>
+          <p class="hero__kicker"><span class="dot" aria-hidden="true"></span>Local analysis · 15 modules · No data uploads</p>
           <h1 id="hero-h">Research that shows its work.</h1>
           <p class="hero__lead">A browser workbench for political communication research. Load a CSV, run a transparent test, and keep the method beside the result.</p>
           <div class="btn-row">
@@ -125,12 +125,15 @@
           <div class="rw-body">
             <div class="rw-tabs" role="tablist" aria-label="Analysis modules">
               <button class="rw-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-data" id="tab-data">Data</button>
+              <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-data-quality" id="tab-data-quality" tabindex="-1">Data quality</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-describe" id="tab-describe" tabindex="-1">Describe</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-reliability" id="tab-reliability" tabindex="-1">Reliability</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-compare" id="tab-compare" tabindex="-1">Compare</button>
+              <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-nonparametric" id="tab-nonparametric" tabindex="-1">Nonparametric</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-correlation" id="tab-correlation" tabindex="-1">Correlation</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-regression" id="tab-regression" tabindex="-1">Regression</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-coding" id="tab-coding" tabindex="-1">Coding audit</button>
+              <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-multicoder" id="tab-multicoder" tabindex="-1">Multi-coder</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-recipe" id="tab-recipe" tabindex="-1">Method note</button>
               <button class="rw-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-extract" id="tab-extract" tabindex="-1">URL extract</button>
             </div>
@@ -149,6 +152,18 @@
                 </div>
                 <p class="rw-help">CSV headers become variable names. Inferred type, missingness, and complete cases are reported below the preview.</p>
                 <div id="missingReport" class="rw-result" aria-live="polite"></div>
+              </section>
+
+              <section class="rw-panel" id="panel-data-quality" role="tabpanel" aria-labelledby="tab-data-quality" hidden>
+                <div class="rw-panel-head">
+                  <div><span class="rw-kicker">AUDIT</span><h3>Data quality audit</h3></div>
+                  <span class="rw-tag">Duplicates · outliers · constants</span>
+                </div>
+                <p class="rw-help">This audit inspects duplicate rows, repeated unit IDs, constant columns, missingness, and IQR outliers before any inferential test.</p>
+                <form class="rw-form rw-form--inline" data-analysis="datahealth">
+                  <button class="rw-button" type="submit">Run audit</button>
+                </form>
+                <div class="rw-result" id="dataHealthResult" aria-live="polite"></div>
               </section>
 
               <section class="rw-panel" id="panel-describe" role="tabpanel" aria-labelledby="tab-describe" hidden>
@@ -203,6 +218,22 @@
                 <div class="rw-result" id="compareResult" aria-live="polite"></div>
               </section>
 
+              <section class="rw-panel" id="panel-nonparametric" role="tabpanel" aria-labelledby="tab-nonparametric" hidden>
+                <div class="rw-panel-head">
+                  <div><span class="rw-kicker">ROBUST CHECKS</span><h3>Nonparametric tests</h3></div>
+                  <span class="rw-tag">Rank-based</span>
+                </div>
+                <form class="rw-form" data-analysis="nonparametric">
+                  <div class="rw-field"><label for="nonparamMode">Test</label><select id="nonparamMode" name="mode"><option value="mann">Mann-Whitney U: two groups</option><option value="kruskal">Kruskal-Wallis H: three or more groups</option><option value="spearman">Spearman rank correlation</option></select></div>
+                  <div class="rw-field" id="nonparamGroupFields"><label for="nonparamGroup">Grouping variable</label><select id="nonparamGroup" name="group"></select></div>
+                  <div class="rw-field" id="nonparamOutcomeFields"><label for="nonparamOutcome">Numeric outcome</label><select id="nonparamOutcome" name="outcome"></select></div>
+                  <div class="rw-field" id="nonparamCorrFields"><label for="spearmanX">First variable</label><select id="spearmanX" name="x"></select></div>
+                  <div class="rw-field" id="nonparamCorrYFields"><label for="spearmanY">Second variable</label><select id="spearmanY" name="y"></select></div>
+                  <button class="rw-button" type="submit">Run nonparametric test</button>
+                </form>
+                <div class="rw-result" id="nonparametricResult" aria-live="polite"></div>
+              </section>
+
               <section class="rw-panel" id="panel-correlation" role="tabpanel" aria-labelledby="tab-correlation" hidden>
                 <div class="rw-panel-head">
                   <div><span class="rw-kicker">CORRELATION</span><h3>Pearson correlation</h3></div>
@@ -242,6 +273,21 @@
                 <div class="rw-result" id="codingResult" aria-live="polite"></div>
               </section>
 
+              <section class="rw-panel" id="panel-multicoder" role="tabpanel" aria-labelledby="tab-multicoder" hidden>
+                <div class="rw-panel-head">
+                  <div><span class="rw-kicker">MULTI-CODER</span><h3>Intercoder reliability</h3></div>
+                  <span class="rw-tag">Fleiss' κ</span>
+                </div>
+                <form data-analysis="multicoder">
+                  <fieldset class="rw-fieldset">
+                    <legend>Coder columns</legend>
+                    <div class="rw-checks" id="coderItems"></div>
+                  </fieldset>
+                  <button class="rw-button" type="submit">Calculate reliability</button>
+                </form>
+                <div class="rw-result" id="multicoderResult" aria-live="polite"></div>
+              </section>
+
               <section class="rw-panel" id="panel-recipe" role="tabpanel" aria-labelledby="tab-recipe" hidden>
                 <div class="rw-panel-head">
                   <div><span class="rw-kicker">METHOD NOTE</span><h3>Reusable analysis record</h3></div>
@@ -271,6 +317,12 @@
                   </form>
                 </details>
                 <div class="rw-result" id="extractResult" aria-live="polite"></div>
+                <div class="rw-subpanel">
+                  <div><span class="rw-kicker">REVIEW COLLECTION</span><h4>AI extraction queue</h4></div>
+                  <p class="rw-help">Add extracted records to a local collection, then export one CSV for human review and coding. The queue clears when a new dataset is loaded.</p>
+                  <div id="extractCollection" class="rw-result" aria-live="polite"></div>
+                  <button class="rw-button" type="button" id="exportCollection" disabled>Download collection CSV</button>
+                </div>
               </section>
             </div>
           </div>

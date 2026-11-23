@@ -2,18 +2,24 @@ import {
   categoricalColumns,
   chiSquare,
   codingAgreement,
-  cronbachAlphaWithOptions,
   describe,
+  cronbachAlphaWithOptions,
+  dataHealth,
+  fleissKappa,
   frequencyTable,
   groupComparison,
   histogram,
+  kruskalWallisTest,
+  mannWhitneyUTest,
   missingDataReport,
   numericColumns,
   ols,
   parseCSV,
+  pairwiseCodingAgreement,
   pearson,
   rowsToCSV,
   skewness,
+  spearman,
   toNumber,
 } from "./stats.js";
 import {
@@ -36,6 +42,7 @@ const state = {
   methodNote: "",
   activeName: "none",
   extractedPage: null,
+  extractCollection: [],
 };
 
 const elements = {
@@ -49,6 +56,11 @@ const elements = {
   exportResult: document.querySelector("#exportResult"),
   activeResultLabel: document.querySelector("#activeResultLabel"),
   describeVariable: document.querySelector("#describeVariable"),
+  nonparamMode: document.querySelector("#nonparamMode"),
+  nonparamGroup: document.querySelector("#nonparamGroup"),
+  nonparamOutcome: document.querySelector("#nonparamOutcome"),
+  spearmanX: document.querySelector("#spearmanX"),
+  spearmanY: document.querySelector("#spearmanY"),
   frequencyVariable: document.querySelector("#frequencyVariable"),
   reliabilityItems: document.querySelector("#reliabilityItems"),
   reverseItems: document.querySelector("#reverseItems"),
@@ -61,13 +73,17 @@ const elements = {
   regPredictors: document.querySelector("#regPredictors"),
   aiLabel: document.querySelector("#aiLabel"),
   humanLabel: document.querySelector("#humanLabel"),
+  coderItems: document.querySelector("#coderItems"),
   describeResult: document.querySelector("#describeResult"),
+  dataHealthResult: document.querySelector("#dataHealthResult"),
+  nonparametricResult: document.querySelector("#nonparametricResult"),
   frequencyResult: document.querySelector("#frequencyResult"),
   reliabilityResult: document.querySelector("#reliabilityResult"),
   compareResult: document.querySelector("#compareResult"),
   correlationResult: document.querySelector("#correlationResult"),
   regressionResult: document.querySelector("#regressionResult"),
   codingResult: document.querySelector("#codingResult"),
+  multicoderResult: document.querySelector("#multicoderResult"),
   missingReport: document.querySelector("#missingReport"),
   methodNote: document.querySelector("#methodNote"),
   copyMethod: document.querySelector("#copyMethod"),
@@ -75,6 +91,8 @@ const elements = {
   pasteText: document.querySelector("#pasteText"),
   extractStatus: document.querySelector("#extractStatus"),
   extractResult: document.querySelector("#extractResult"),
+  extractCollection: document.querySelector("#extractCollection"),
+  exportCollection: document.querySelector("#exportCollection"),
 };
 
 const results = {
@@ -85,6 +103,9 @@ const results = {
   correlation: elements.correlationResult,
   regression: elements.regressionResult,
   coding: elements.codingResult,
+  datahealth: elements.dataHealthResult,
+  nonparametric: elements.nonparametricResult,
+  multicoder: elements.multicoderResult,
   missing: elements.missingReport,
   extract: elements.extractResult,
 };
@@ -98,6 +119,8 @@ elements.file.addEventListener("change", loadSelectedFile);
 elements.exportResult.addEventListener("click", downloadActiveResult);
 elements.copyMethod.addEventListener("click", copyMethodNote);
 elements.compareMode.addEventListener("change", updateCompareFields);
+elements.nonparamMode.addEventListener("change", updateNonparamFields);
+elements.exportCollection.addEventListener("click", downloadExtractCollection);
 window.addEventListener("resize", renderPreview);
 loadPracticeData();
 
@@ -145,7 +168,9 @@ function applyDataset(parsed, sourceName) {
   state.methodNote = "";
   state.activeName = "none";
   state.extractedPage = null;
+  state.extractCollection = [];
   elements.exportResult.disabled = true;
+  elements.exportCollection.disabled = true;
   elements.activeResultLabel.textContent = "Active result: none";
   elements.methodNote.textContent = "Run an analysis first. Its method note will appear here.";
   elements.copyMethod.disabled = true;
@@ -157,6 +182,7 @@ function applyDataset(parsed, sourceName) {
   renderMissingReport();
   populateControls();
   Object.values(results).forEach(showEmpty);
+  renderExtractCollection();
   runDescription();
   console.info("Research workbench dataset", {
     source: sourceName,
@@ -225,6 +251,16 @@ function renderMissingReport() {
 
 function populateControls() {
   fillSelect(elements.describeVariable, state.numeric, state.numeric[0]);
+  fillSelect(elements.nonparamGroup, state.categorical, preferredColumn(["condition", "group", "source"]));
+  fillSelect(elements.nonparamOutcome, state.numeric, state.numeric[0]);
+  fillSelect(elements.spearmanX, state.numeric, state.numeric[0]);
+  fillSelect(elements.spearmanY, state.numeric, state.numeric[1] ?? state.numeric[0]);
+  fillCheckboxes(
+    elements.coderItems,
+    state.categorical,
+    state.categorical.filter((name) => /coder|human|judge|annotator/i.test(name)).slice(0, 3),
+    "coder"
+  );
   fillSelect(elements.frequencyVariable, state.categorical, preferredColumn(["human_trace", "human_style"]));
   fillCheckboxes(
     elements.reliabilityItems,
@@ -265,18 +301,173 @@ function updateCompareFields() {
   );
 }
 
+function updateNonparamFields() {
+  const mode = elements.nonparamMode.value;
+  const isCorrelation = mode === "spearman";
+  const isGroupTest = mode === "mann" || mode === "kruskal";
+  elements.nonparamGroupFields.hidden = !isGroupTest;
+  elements.nonparamOutcomeFields.hidden = !isGroupTest;
+  elements.nonparamCorrFields.hidden = !isCorrelation;
+  elements.nonparamCorrYFields.hidden = !isCorrelation;
+}
+
+function runDataHealth() {
+  const result = dataHealth(state.rows, state.headers);
+  if (!result) {
+    showEmpty(results.datahealth, "Load a dataset with rows and columns before auditing data quality.");
+    return;
+  }
+  const worstMissing = [...result.variables]
+    .sort((a, b) => b.missing - a.missing)
+    .filter((variable) => variable.missing > 0)
+    .slice(0, 6);
+  const outlierVariables = result.variables.filter((variable) => variable.outliers > 0);
+  results.datahealth.innerHTML = `
+    <div class="rw-result-head"><h4>Dataset audit</h4><span>${result.totalRows} rows · ${result.totalColumns} columns</span></div>
+    <div class="rw-stat-grid">
+      ${statMarkup("Duplicate rows", result.duplicateRows)}
+      ${statMarkup("Repeated IDs", result.duplicateIds ?? "No ID")}
+      ${statMarkup("Constant columns", result.constantVariables.length)}
+      ${statMarkup("Outlier columns", outlierVariables.length)}
+    </div>
+    ${result.idHeader ? `<p class="rw-note">ID field detected: ${escapeHTML(result.idHeader)}. ${result.duplicateIds} repeated ID value(s) were found.</p>` : `<p class="rw-note">No standard ID field was detected, so duplicate unit IDs were not checked.</p>`}
+    ${result.constantVariables.length ? `<p class="rw-warning">Constant columns may add no information to models: ${escapeHTML(result.constantVariables.join(", "))}.</p>` : ""}
+    ${outlierVariables.length ? `
+      <table class="rw-result-table">
+        <thead><tr><th scope="col">Numeric variable</th><th scope="col">IQR outliers</th><th scope="col">Expected range</th></tr></thead>
+        <tbody>${outlierVariables
+          .map(
+            (variable) =>
+              `<tr><td>${escapeHTML(variable.name)}</td><td>${variable.outliers}</td><td>${formatNumber(variable.lowerBound)} to ${formatNumber(variable.upperBound)}</td></tr>`
+          )
+          .join("")}</tbody>
+      </table>
+      <p class="rw-note">Outliers are flagged by the 1.5 × IQR rule. They are warnings, not deletion instructions.</p>` : ""}
+    <table class="rw-result-table">
+      <thead><tr><th scope="col">Variable</th><th scope="col">Type</th><th scope="col">Missing</th><th scope="col">Levels</th></tr></thead>
+      <tbody>${worstMissing
+        .map(
+          (variable) =>
+            `<tr><td>${escapeHTML(variable.name)}</td><td>${escapeHTML(variable.type)}</td><td>${variable.missing}</td><td>${variable.uniqueValues}</td></tr>`
+        )
+        .join("")}</tbody>
+    </table>
+    ${worstMissing.length ? "" : `<p class="rw-note">No missing values were detected.</p>`}`;
+  setActiveResult(
+    "Data quality audit",
+    [
+      { result: "Data quality", metric: "rows", value: result.totalRows },
+      { result: "Data quality", metric: "columns", value: result.totalColumns },
+      { result: "Data quality", metric: "duplicate_rows", value: result.duplicateRows },
+      { result: "Data quality", metric: "id_field", value: result.idHeader ?? "none" },
+      { result: "Data quality", metric: "duplicate_ids", value: result.duplicateIds ?? "not checked" },
+      { result: "Data quality", metric: "constant_columns", value: result.constantVariables.join("|") },
+      ...result.variables.flatMap((variable) => [
+        { result: "Data quality", metric: `${variable.name}:missing`, value: variable.missing },
+        { result: "Data quality", metric: `${variable.name}:outliers`, value: variable.outliers ?? "" },
+      ]),
+    ]
+  );
+}
+
+function runNonparametric() {
+  const mode = elements.nonparamMode.value;
+  if (mode === "spearman") {
+    const x = elements.spearmanX.value;
+    const y = elements.spearmanY.value;
+    const result = spearman(
+      state.rows.map((row) => row[x]),
+      state.rows.map((row) => row[y])
+    );
+    if (!result) {
+      showEmpty(results.nonparametric, "Choose two numeric variables with at least three complete pairs.");
+      return;
+    }
+    results.nonparametric.innerHTML = `
+      <div class="rw-result-head"><h4>Spearman rank correlation</h4><span>${escapeHTML(x)} with ${escapeHTML(y)}</span></div>
+      <div class="rw-stat-grid">
+        ${statMarkup("ρ", formatNumber(result.rho))}
+        ${statMarkup("p", formatP(result.p))}
+        ${statMarkup("n", result.n)}
+        ${statMarkup("df", result.df)}
+      </div>
+      <p class="rw-note">Spearman’s ρ measures monotonic association. The p value is a t approximation and does not establish causality.</p>`;
+    setActiveResult(
+      "Spearman rank correlation",
+      [
+        { result: "Spearman", metric: "x", value: x },
+        { result: "Spearman", metric: "y", value: y },
+        { result: "Spearman", metric: "n", value: result.n },
+        { result: "Spearman", metric: "rho", value: round(result.rho) },
+        { result: "Spearman", metric: "p", value: round(result.p, 8) },
+      ]
+    );
+    return;
+  }
+
+  const group = elements.nonparamGroup.value;
+  const outcome = elements.nonparamOutcome.value;
+  const result = mode === "mann"
+    ? mannWhitneyUTest(state.rows, group, outcome)
+    : kruskalWallisTest(state.rows, group, outcome);
+  if (!result) {
+    showEmpty(results.nonparametric, mode === "mann"
+      ? "Mann-Whitney U needs one grouping variable with exactly two levels and a numeric outcome."
+      : "Kruskal-Wallis H needs one grouping variable with two or more levels and a numeric outcome.");
+    return;
+  }
+  const df = Array.isArray(result.df) ? result.df.join(", ") : result.df;
+  results.nonparametric.innerHTML = `
+    <div class="rw-result-head"><h4>${escapeHTML(result.type)}</h4><span>${escapeHTML(outcome)} by ${escapeHTML(group)}</span></div>
+    <div class="rw-stat-grid">
+      ${statMarkup(mode === "mann" ? "U" : "H", formatNumber(result.statistic))}
+      ${statMarkup(mode === "mann" ? "z" : "df", mode === "mann" ? formatNumber(result.z) : result.df)}
+      ${statMarkup("p", formatP(result.p))}
+      ${statMarkup(mode === "mann" ? "r effect" : result.effectLabel, formatNumber(result.effect))}
+    </div>
+    <table class="rw-result-table">
+      <thead><tr><th scope="col">Group</th><th scope="col">n</th><th scope="col">Median</th><th scope="col">Mean</th><th scope="col">SD</th><th scope="col">Rank sum</th></tr></thead>
+      <tbody>${result.groups
+        .map(
+          (entry) =>
+            `<tr><td>${escapeHTML(entry.name)}</td><td>${entry.n}</td><td>${formatNumber(entry.median)}</td><td>${formatNumber(entry.mean)}</td><td>${formatNumber(entry.sd)}</td><td>${formatNumber(entry.rankSum)}</td></tr>`
+        )
+        .join("")}</tbody>
+    </table>
+    <p class="rw-note">${escapeHTML(result.approximation)}. Complete cases are used and missing values are excluded.</p>`;
+  setActiveResult(
+    result.type,
+    [
+      { result: result.type, metric: "group", value: group },
+      { result: result.type, metric: "outcome", value: outcome },
+      { result: result.type, metric: "n", value: result.n },
+      { result: result.type, metric: "statistic", value: round(result.statistic) },
+      { result: result.type, metric: mode === "mann" ? "z" : "df", value: mode === "mann" ? round(result.z) : result.df },
+      { result: result.type, metric: "p", value: round(result.p, 8) },
+      { result: result.type, metric: result.effectLabel, value: round(result.effect) },
+      ...result.groups.flatMap((entry) => [
+        { result: result.type, metric: `median:${entry.name}`, value: round(entry.median) },
+        { result: result.type, metric: `rank_sum:${entry.name}`, value: round(entry.rankSum) },
+      ]),
+    ]
+  );
+}
+
 function initializeForms() {
   document.querySelectorAll("form[data-analysis]").forEach((form) => {
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const analysis = form.dataset.analysis;
       if (analysis === "describe") runDescription();
+      if (analysis === "datahealth") runDataHealth();
+      if (analysis === "nonparametric") runNonparametric();
       if (analysis === "frequency") runFrequency();
       if (analysis === "reliability") runReliability();
       if (analysis === "compare") runComparison();
       if (analysis === "correlation") runCorrelation();
       if (analysis === "regression") runRegression();
       if (analysis === "coding") runCodingAudit();
+      if (analysis === "multicoder") runMultiCoder();
       if (analysis === "extract") runExtract();
       if (analysis === "paste") runPaste();
     });
@@ -621,6 +812,55 @@ function runCodingAudit() {
   );
 }
 
+function runMultiCoder() {
+  const coderColumns = checkedValues(elements.coderItems);
+  if (coderColumns.length < 2) {
+    showEmpty(results.multicoder, "Choose at least two categorical coder columns.");
+    return;
+  }
+  const result = fleissKappa(state.rows, coderColumns);
+  const pairs = pairwiseCodingAgreement(state.rows, coderColumns);
+  if (!result) {
+    showEmpty(results.multicoder, "No complete rows were found across the selected coder columns.");
+    return;
+  }
+  results.multicoder.innerHTML = `
+    <div class="rw-result-head"><h4>Fleiss’ kappa</h4><span>${result.coders} coders · complete units n = ${result.n}</span></div>
+    <div class="rw-stat-grid">
+      ${statMarkup("Fleiss’ κ", result.kappa === null ? "n.a." : formatNumber(result.kappa))}
+      ${statMarkup("Observed", formatPercent(result.observedAgreement))}
+      ${statMarkup("Expected", formatPercent(result.expectedAgreement))}
+      ${statMarkup("Categories", result.categories.length)}
+    </div>
+    ${result.kappa === null ? `<p class="rw-warning">One category or a degenerate marginal distribution prevents κ interpretation. Report observed agreement and inspect the codebook.</p>` : `<p class="rw-note">κ below .60 suggests substantive coding disagreement; below .40 is generally weak.</p>`}
+    <table class="rw-result-table">
+      <thead><tr><th scope="col">Coder pair</th><th scope="col">Paired n</th><th scope="col">Observed agreement</th><th scope="col">Cohen’s κ</th></tr></thead>
+      <tbody>${pairs
+        .map(
+          (pair) =>
+            `<tr><td>${escapeHTML(pair.first)} × ${escapeHTML(pair.second)}</td><td>${pair.n}</td><td>${formatPercent(pair.observedAgreement)}</td><td>${formatNumber(pair.kappa)}</td></tr>`
+        )
+        .join("")}</tbody>
+    </table>
+    <p class="rw-note">Fleiss’ kappa treats coders as interchangeable. The pairwise table helps identify which coder pair is responsible for disagreement.</p>`;
+  setActiveResult(
+    "Fleiss' kappa",
+    [
+      { result: "Fleiss' kappa", metric: "coder columns", value: coderColumns.join("|") },
+      { result: "Fleiss' kappa", metric: "complete units", value: result.n },
+      { result: "Fleiss' kappa", metric: "coders", value: result.coders },
+      { result: "Fleiss' kappa", metric: "observed agreement", value: round(result.observedAgreement) },
+      { result: "Fleiss' kappa", metric: "expected agreement", value: round(result.expectedAgreement) },
+      { result: "Fleiss' kappa", metric: "kappa", value: result.kappa === null ? "" : round(result.kappa) },
+      ...pairs.flatMap((pair) => [
+        { result: "Fleiss' kappa", metric: `pair:${pair.first} x ${pair.second}:n`, value: pair.n },
+        { result: "Fleiss' kappa", metric: `pair:${pair.first} x ${pair.second}:agreement`, value: round(pair.observedAgreement) },
+        { result: "Fleiss' kappa", metric: `pair:${pair.first} x ${pair.second}:kappa`, value: round(pair.kappa) },
+      ]),
+    ]
+  );
+}
+
 function matrixMarkup(title, matrix, rows, columns, transpose = false) {
   const actual = transpose
     ? rows.map((_, columnIndex) => matrix.map((row) => row[columnIndex]))
@@ -739,6 +979,22 @@ function runPaste() {
 
 function renderExtractedRecord(record, source, mode) {
   state.extractedPage = record;
+  state.extractCollection.push({
+    source,
+    title: record.title,
+    description: record.description,
+    published: record.published,
+    domain: record.domain,
+    sourceType: record.sourceType,
+    words: record.wordCount,
+    characters: record.textChars,
+    linkCount: record.links.length,
+    links: record.links.join(" | "),
+    text: record.text,
+    aiStatus: "AI extracted · human review pending",
+    humanDecision: "",
+    reviewNote: "",
+  });
   elements.extractStatus.textContent = `${mode} · ${record.wordCount} words · ${record.links.length} links`;
   results.extract.innerHTML = `
     <div class="rw-result-head"><h4>${escapeHTML(record.title)}</h4><span>${record.textChars} characters</span></div>
@@ -769,6 +1025,45 @@ function renderExtractedRecord(record, source, mode) {
     { result: "URL extract", metric: "links", value: record.links.join("|") },
     { result: "URL extract", metric: "text", value: record.text.slice(0, 5000) },
   ]);
+  renderExtractCollection();
+}
+
+function renderExtractCollection() {
+  const rows = state.extractCollection;
+  elements.exportCollection.disabled = !rows.length;
+  if (!rows.length) {
+    showEmpty(elements.extractCollection, "No extracted records in the current session.");
+    return;
+  }
+  elements.extractCollection.innerHTML = `
+    <div class="rw-result-head"><h4>AI extraction queue</h4><span>${rows.length} record(s) ready for human review</span></div>
+    <table class="rw-result-table">
+      <thead><tr><th scope="col">Source</th><th scope="col">Title</th><th scope="col">Words</th><th scope="col">AI status</th></tr></thead>
+      <tbody>${rows
+        .map(
+          (record, index) =>
+            `<tr><td>${escapeHTML(record.domain || `record ${index + 1}`)}</td><td>${escapeHTML(record.title)}</td><td>${record.words}</td><td>${escapeHTML(record.aiStatus)}</td></tr>`
+        )
+        .join("")}</tbody>
+    </table>
+    <p class="rw-note">This queue is not automatically transformed into the analysis dataset. Download it, review each row, then load the corrected CSV into the Data tab.</p>`;
+}
+
+function downloadExtractCollection() {
+  if (!state.extractCollection.length) return;
+  const csv = rowsToCSV(state.extractCollection);
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `ai-extraction-review-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  elements.exportCollection.textContent = "Review CSV exported";
+  setTimeout(() => {
+    elements.exportCollection.textContent = "Download collection CSV";
+  }, 1800);
 }
 
 function setActiveResult(name, exportRows) {

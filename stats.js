@@ -473,6 +473,312 @@ export function codingAgreement(rows, aiColumn, humanColumn) {
   };
 }
 
+export function rankData(values) {
+  const indexed = values
+    .map((value, index) => ({ value: toNumber(value), index }))
+    .filter((item) => item.value !== null)
+    .sort((a, b) => a.value - b.value);
+  const ranks = new Array(values.length).fill(null);
+  let start = 0;
+  while (start < indexed.length) {
+    let end = start;
+    while (end + 1 < indexed.length && indexed[end + 1].value === indexed[start].value) {
+      end += 1;
+    }
+    const averageRank = (start + end + 2) / 2;
+    for (let position = start; position <= end; position += 1) {
+      ranks[indexed[position].index] = averageRank;
+    }
+    start = end + 1;
+  }
+  return ranks;
+}
+
+export function normalTwoSidedP(z) {
+  const value = Number(z);
+  if (!Number.isFinite(value)) return null;
+  const absolute = Math.abs(value);
+  const t = 1 / (1 + 0.3275911 * absolute);
+  const erf = 1 - ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-absolute * absolute);
+  const upperTail = 0.5 * (1 - erf);
+  return Math.min(1, Math.max(0, 2 * upperTail));
+}
+
+export function mannWhitneyUTest(rows, groupColumn, outcomeColumn) {
+  const groups = new Map();
+  rows.forEach((row) => {
+    const label = String(row[groupColumn] ?? "").trim();
+    const value = toNumber(row[outcomeColumn]);
+    if (!label || value === null) return;
+    if (!groups.has(label)) groups.set(label, []);
+    groups.get(label).push(value);
+  });
+  const labels = [...groups.keys()];
+  if (labels.length !== 2) return null;
+  const [firstLabel, secondLabel] = labels;
+  const firstValues = groups.get(firstLabel);
+  const secondValues = groups.get(secondLabel);
+  if (firstValues.length < 1 || secondValues.length < 1) return null;
+
+  const combined = [...firstValues, ...secondValues];
+  const ranks = rankData(combined);
+  const firstRankSum = ranks.slice(0, firstValues.length).reduce((sum, rank) => sum + rank, 0);
+  const n1 = firstValues.length;
+  const n2 = secondValues.length;
+  const u1 = n1 * n2 + (n1 * (n1 + 1)) / 2 - firstRankSum;
+  const u2 = n1 * n2 - u1;
+  const u = Math.min(u1, u2);
+  const total = n1 + n2;
+  const tieCounts = new Map();
+  combined.forEach((value) => tieCounts.set(value, (tieCounts.get(value) ?? 0) + 1));
+  const tieCorrection = [...tieCounts.values()].reduce(
+    (sum, count) => sum + (count ** 3 - count),
+    0
+  );
+  const variance =
+    ((n1 * n2) / 12) *
+    ((total + 1) - tieCorrection / (total * (total - 1)));
+  if (variance <= EPSILON) return null;
+  const expectedMean = (n1 * n2) / 2;
+  const z = u <= expectedMean ? (u + 0.5 - expectedMean) / Math.sqrt(variance) : (u - 0.5 - expectedMean) / Math.sqrt(variance);
+  const summaries = labels.map((label) => {
+    const values = groups.get(label);
+    return {
+      name: label,
+      n: values.length,
+      median: median(values),
+      mean: mean(values),
+      sd: sampleSD(values),
+      rankSum: ranks.slice(labels.indexOf(label) === 0 ? 0 : firstValues.length, labels.indexOf(label) === 0 ? firstValues.length : total).reduce((sum, rank) => sum + rank, 0),
+    };
+  });
+  return {
+    type: "Mann-Whitney U test",
+    statistic: u,
+    z,
+    p: normalTwoSidedP(z),
+    n: total,
+    n1,
+    n2,
+    groups: summaries,
+    approximation: "normal approximation with tie correction and continuity correction",
+    effect: Math.abs(z) / Math.sqrt(total),
+    effectLabel: "r = |z| / sqrt(n)",
+  };
+}
+
+export function kruskalWallisTest(rows, groupColumn, outcomeColumn) {
+  const groups = new Map();
+  rows.forEach((row) => {
+    const label = String(row[groupColumn] ?? "").trim();
+    const value = toNumber(row[outcomeColumn]);
+    if (!label || value === null) return;
+    if (!groups.has(label)) groups.set(label, []);
+    groups.get(label).push(value);
+  });
+  const labels = [...groups.keys()].filter((label) => groups.get(label).length > 0);
+  if (labels.length < 2) return null;
+  const combined = labels.flatMap((label) => groups.get(label));
+  const ranks = rankData(combined);
+  let cursor = 0;
+  const groupRankSums = labels.map((label) => {
+    const size = groups.get(label).length;
+    const sum = ranks.slice(cursor, cursor + size).reduce((sum, rank) => sum + rank, 0);
+    cursor += size;
+    return sum;
+  });
+  const total = combined.length;
+  const k = labels.length;
+  const hRaw =
+    (12 / (total * (total + 1))) *
+      groupRankSums.reduce((sum, rankSum, index) => sum + (rankSum ** 2) / groups.get(labels[index]).length, 0) -
+    3 * (total + 1);
+  const tieCounts = new Map();
+  combined.forEach((value) => tieCounts.set(value, (tieCounts.get(value) ?? 0) + 1));
+  const tieCorrection = [...tieCounts.values()].reduce((sum, count) => sum + (count ** 3 - count), 0);
+  const denominator = 1 - tieCorrection / (total ** 3 - total);
+  if (denominator <= EPSILON) return null;
+  const h = hRaw / denominator;
+  const df = k - 1;
+  return {
+    type: "Kruskal-Wallis H test",
+    statistic: h,
+    df,
+    p: chiSquareDistributionP(h, df),
+    n: total,
+    groups: labels.map((label, index) => ({
+      name: label,
+      n: groups.get(label).length,
+      median: median(groups.get(label)),
+      mean: mean(groups.get(label)),
+      sd: sampleSD(groups.get(label)),
+      rankSum: groupRankSums[index],
+    })),
+    effect: h / (total - 1),
+    effectLabel: "Epsilon squared",
+  };
+}
+
+export function spearman(valuesX, valuesY) {
+  const pairs = valuesX
+    .map((value, index) => [toNumber(value), toNumber(valuesY[index])])
+    .filter(([x, y]) => x !== null && y !== null);
+  if (pairs.length < 3) return null;
+  const rankX = rankData(pairs.map(([x]) => x));
+  const rankY = rankData(pairs.map(([, y]) => y));
+  const result = pearson(rankX, rankY);
+  if (!result) return null;
+  return {
+    n: result.n,
+    rho: result.r,
+    t: result.t,
+    df: result.df,
+    p: result.p,
+    approximation: "t approximation for Spearman rank correlation",
+  };
+}
+
+export function fleissKappa(rows, coderColumns) {
+  if (!Array.isArray(coderColumns) || coderColumns.length < 2) return null;
+  const units = rows
+    .map((row) => coderColumns.map((column) => String(row[column] ?? "").trim()))
+    .filter((labels) => labels.every((label) => label !== ""));
+  if (!units.length) return null;
+  const coders = coderColumns.length;
+  const categories = [...new Set(units.flat())].sort();
+  if (!categories.length || categories.length < 2) return null;
+  const categoryIndex = new Map(categories.map((category, index) => [category, index]));
+  const counts = units.map((labels) => {
+    const unitCounts = Array(categories.length).fill(0);
+    labels.forEach((label) => {
+      unitCounts[categoryIndex.get(label)] += 1;
+    });
+    return unitCounts;
+  });
+  const n = units.length;
+  const r = coders;
+  const observedAgreement =
+    counts.reduce((sum, unitCounts) => {
+      const squaredSum = unitCounts.reduce((unitSum, count) => unitSum + count ** 2, 0);
+      return sum + (squaredSum - r) / (r * (r - 1));
+    }, 0) / n;
+  const categoryShares = categories.map((_, index) =>
+    counts.reduce((sum, unitCounts) => sum + unitCounts[index], 0) / (n * r)
+  );
+  const expectedAgreement = categoryShares.reduce((sum, share) => sum + share ** 2, 0);
+  if (expectedAgreement >= 1 - EPSILON) {
+    return {
+      n,
+      coders: r,
+      categories,
+      observedAgreement,
+      expectedAgreement,
+      kappa: observedAgreement >= 1 - EPSILON ? 1 : null,
+      omittedRows: rows.length - n,
+    };
+  }
+  return {
+    n,
+    coders: r,
+    categories,
+    observedAgreement,
+    expectedAgreement,
+    kappa: (observedAgreement - expectedAgreement) / (1 - expectedAgreement),
+    omittedRows: rows.length - n,
+  };
+}
+
+export function pairwiseCodingAgreement(rows, coderColumns) {
+  const pairs = [];
+  for (let i = 0; i < coderColumns.length; i += 1) {
+    for (let j = i + 1; j < coderColumns.length; j += 1) {
+      const first = coderColumns[i];
+      const second = coderColumns[j];
+      const pairedRows = rows.filter(
+        (row) => !isMissing(row[first]) && !isMissing(row[second])
+      );
+      const result = codingAgreement(pairedRows, first, second);
+      if (result) {
+        pairs.push({
+          first,
+          second,
+          n: result.n,
+          observedAgreement: result.observedAgreement,
+          kappa: result.kappa,
+        });
+      }
+    }
+  }
+  return pairs;
+}
+
+export function dataHealth(rows, headers) {
+  if (!rows.length || !headers.length) return null;
+  const numeric = numericColumns(rows, headers);
+  const categorical = categoricalColumns(rows, headers);
+  const rowSignatures = rows.map((row) => JSON.stringify(headers.map((header) => String(row[header] ?? ""))));
+  const signatureCounts = new Map();
+  rowSignatures.forEach((signature) => signatureCounts.set(signature, (signatureCounts.get(signature) ?? 0) + 1));
+  const duplicateRows = [...signatureCounts.values()].reduce((sum, count) => sum + Math.max(0, count - 1), 0);
+
+  const idHeader = headers.find((header) => /^(id|record_id|item_id|unit_id)$/i.test(header));
+  let duplicateIds = null;
+  let duplicateIdValues = [];
+  if (idHeader) {
+    const counts = new Map();
+    rows.forEach((row) => {
+      const id = String(row[idHeader] ?? "").trim();
+      if (!id) return;
+      counts.set(id, (counts.get(id) ?? 0) + 1);
+    });
+    duplicateIdValues = [...counts.entries()].filter(([, count]) => count > 1).map(([value, count]) => ({ value, count }));
+    duplicateIds = duplicateIdValues.reduce((sum, entry) => sum + entry.count - 1, 0);
+  }
+
+  const variables = headers.map((header) => {
+    const isNumeric = numeric.includes(header);
+    const values = rows.map((row) => row[header]);
+    const nonMissing = values.filter((value) => !isMissing(value));
+    const unique = new Set(nonMissing.map((value) => String(value).trim()).filter(Boolean));
+    let outliers = null;
+    let lowerBound = null;
+    let upperBound = null;
+    if (isNumeric) {
+      const clean = values.map(toNumber).filter((value) => value !== null);
+      const q1 = quantile(clean, 0.25);
+      const q3 = quantile(clean, 0.75);
+      const iqr = q3 - q1;
+      lowerBound = q1 - 1.5 * iqr;
+      upperBound = q3 + 1.5 * iqr;
+      outliers = clean.filter((value) => value < lowerBound || value > upperBound).length;
+    }
+    return {
+      name: header,
+      type: isNumeric ? "numeric" : "categorical",
+      n: nonMissing.length,
+      missing: rows.length - nonMissing.length,
+      uniqueValues: unique.size,
+      constant: unique.size <= 1 && nonMissing.length > 0,
+      outliers,
+      lowerBound,
+      upperBound,
+    };
+  });
+
+  return {
+    totalRows: rows.length,
+    totalColumns: headers.length,
+    duplicateRows,
+    idHeader,
+    duplicateIds,
+    duplicateIdValues,
+    constantVariables: variables.filter((variable) => variable.constant).map((variable) => variable.name),
+    numericVariables: variables.filter((variable) => variable.type === "numeric"),
+    categoricalVariables: variables.filter((variable) => variable.type === "categorical"),
+    variables,
+  };
+}
+
 export function parseCSV(text) {
   const source = String(text).replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
   const firstLine = source.split("\n", 1)[0] ?? "";
